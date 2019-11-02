@@ -23,7 +23,7 @@ $logged_in_as = new User(LoginClass::isLoggedIn());
 if (isset($_GET['mid']))
 {
 
-        $res = DataBase::query('SELECT * FROM '.DataBase::$message_table_name.' WHERE id=:mid AND receiver=:receiver OR sender=:sender', array(':mid'=>$_GET['mid'], ':receiver'=>$logged_in_as->getID(), ':sender'=>$logged_in_as->getID()));
+        $res = DataBase::query('SELECT * FROM '.DataBase::$message_table_name.' WHERE id=:mid', array(':mid'=>$_GET['mid']));
         if(!$res['executed'])
             die('Unexpected error occured. Contact us!');
         $message = $res['data'][0];
