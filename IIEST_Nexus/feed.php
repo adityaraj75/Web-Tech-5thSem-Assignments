@@ -35,10 +35,48 @@
         <div class="container-fluid">
             <div class="row">
                 <!-- Left Column Begin-->
-                <div class="col-sm-3">
-                    <p>Here goes search for people</p>
+                <div class="col-sm-3" id="leftColumn">
+                    <div style="width:100%;" class="btn-group btn-group-toggle" data-toggle="buttons" id="searchOptionDiv">
+                        <label style="width:50%;" class="btn btn-light active" id="searchByPeopleLabel">
+                            <input type="radio" name="searchPeopleOption" id="searchByPeople" value="byName" autocomplete="off" checked> Search By Name
+                        </label>
+                        <label style="width:50%;" class="btn btn-light" id="searchBySkillLabel">
+                            <input type="radio" name="searchPeopleOption" id="searchBySkill" value="bySkill" autocomplete="off"> Search By Skill
+                        </label>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="search-box">
+                                <input class="form-control" type="text" size="30" autocomplete="off" name="peopleSearch" placeholder="Enter Name">
+                                <div class="result" id="peopleLiveSearch"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary" id="searchPeopleBtn">Find</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="peopleSearchResult">
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Ghost Left Col Begin-->
+                <div class="col-sm-3" style="z-index: -1;">
+                </div>
+                <!-- Ghost Left Col End-->
+
                 <!-- Left Column End -->
+
+
+
+
+
 
                 <!-- Middle Column Begin-->
                 <div class="col-sm-6">
@@ -58,7 +96,7 @@
                     </div>
                     <!-- Posting End -->
 
-                    <!-- Post List Begin: -->
+                    <!-- Post List Begin -->
                     <div class="container">
                         <div class="postBox">
 
@@ -69,8 +107,11 @@
                 </div>
                 <!-- Middle Column End -->
 
+
+
+
                 <!-- Right Column Begin -->
-                <div class="col-sm-3">
+                <div class="col-sm-3" id="rightColumn">
                     <p>Do something else here losers</p>
                 </div>
                 <!-- Right Column End -->

@@ -1,5 +1,5 @@
 <?php
-    // PHP File for asynchronous requests of posts, if logged in.
+    // PHP File for asynchronous requests of Login
 
     require_once('../classes/DataBase.php');
     require_once('../classes/LoginClass.php');

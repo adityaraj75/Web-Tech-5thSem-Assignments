@@ -14,4 +14,9 @@ class NetworkVariables
     ////////////////////////////////////////////////////////////////////////////
 }
 
+class OtherVariables
+{
+    public static $image_extensions = array('jpg','png','jpeg');
+}
+
 ?>

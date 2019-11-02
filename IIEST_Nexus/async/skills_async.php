@@ -8,15 +8,10 @@
 
     $logged_in_id = LoginClass::isLoggedIn();
 
-    if (! $logged_in_id)
-    {
-        // Someone is trying to access this php file and inspect its content
-        // through direct URL.
-        header("Location: index.php");
-        exit();
-    }
-
-    $current_user = new User($logged_in_id);
+    if( ! $logged_in_id)
+        $current_user = NULL;
+    else
+        $current_user = new User($logged_in_id);
 
     // Function to get parent of skill
     function parent($skillid){
@@ -63,9 +58,33 @@
     }
 
 
+    // To get JSON of Someone's Skills with ID:
+    if(isset($_POST['showIDSkills'])){
+        $result = DataBase::query('SELECT a.skillid,skill,parent '.
+                                  'FROM '.DATABASE::$skill_reg_table_name.' a,'.DATABASE::$skill_table_name.' b '.
+                                  'WHERE a.skillid=b.skillid '.
+                                      'AND a.Userid=:userid',
+                                  array(':userid'=>$_POST['id'])
+                              );
+        if ($result['executed']===false)
+        {
+            echo "ERROR: Could not able to execute SQL<br>";
+            print_r($result['errorInfo']);
+        }
+        else
+        {
+            $result_json=json_encode($result['data']);
+            echo $result_json;
+        }
+    }
+
+
     // To get JSON of My Skills:
-    if(isset($_GET['showMy']))
-    {
+    if(isset($_POST['showMy'])){
+        if($current_user===NULL){
+            echo "ERROR: Not Logged In!";
+            exit();
+        }
         $result = DataBase::query('SELECT a.skillid,skill,parent '.
                                   'FROM '.DATABASE::$skill_reg_table_name.' a,'.DATABASE::$skill_table_name.' b '.
                                   'WHERE a.skillid=b.skillid '.
@@ -87,8 +106,7 @@
 
 
     // To get JSON of all skills:
-    if(isset($_GET['showAll']))
-    {
+    if(isset($_POST['showAll'])){
         $result = DataBase::query('SELECT * FROM '.DataBase::$skill_table_name);
 
         if ($result['executed']===false)
@@ -106,13 +124,20 @@
 
 
     // To get JSON of suggestions of skills:
-    if( isset($_GET["skillSearch"]) )
-    {
-        $inputString="%".strtolower($_GET["skillSearch"])."%";
-        $result = DataBase::query('SELECT * FROM '.DataBase::$skill_table_name.' '.
-                                  'WHERE LOWER(skill) LIKE :inputString '.
-                                  'ORDER BY skill LIMIT 10',
-                            array(':inputString'=>$inputString));
+    if( isset($_POST["skillSearch"]) ){
+        $inputString1=strtolower($_POST["skillSearch"])."%";
+        $inputString2="% ".strtolower($_POST["skillSearch"])."%";
+        $inputString3="%(".strtolower($_POST["skillSearch"])."%";
+        $result = DataBase::query('SELECT * FROM '.DataBase::$skill_table_name.
+                                  ' WHERE LOWER(skill) LIKE :inputString1'.
+                                    ' OR LOWER(skill) LIKE :inputString2'.
+                                    ' OR LOWER(skill) LIKE :inputString3'.
+                                  ' ORDER BY skill LIMIT 10',
+                            array(':inputString1'=>$inputString1,
+                                  ':inputString2'=>$inputString2,
+                                  ':inputString3'=>$inputString3
+                                )
+                        );
 
         if ($result['executed']===false)
         {
@@ -128,11 +153,14 @@
 
 
     // To add a skill:
-    if(isset($_GET['addSkill']))
-    {
+    if(isset($_POST['addSkill'])){
+        if($current_user===NULL){
+            echo "ERROR: Not Logged In!";
+            exit();
+        }
         $skill_recognise = DataBase::query('SELECT skillid FROM '.DataBase::$skill_table_name.' '.
                                            'WHERE skill=:skill',
-                                        array(':skill'=>$_GET['addSkill'])
+                                        array(':skill'=>$_POST['addSkill'])
                                     );
 
         if($skill_recognise['executed']===false){
@@ -174,11 +202,15 @@
 
 
     // To Delete a skill:
-    if( isset($_GET['deleteSkill']))
+    if( isset($_POST['deleteSkill']))
     {
+        if($current_user===NULL){
+            echo "ERROR: Not Logged In!";
+            exit();
+        }
         $skill_recognise = DataBase::query('SELECT skillid FROM '.DataBase::$skill_table_name.' '.
                                            'WHERE skill=:skill',
-                                        array(':skill'=>$_GET['deleteSkill'])
+                                        array(':skill'=>$_POST['deleteSkill'])
                                     );
 
         if($skill_recognise['executed']===false){
@@ -205,5 +237,53 @@
         echo $result_json;
         exit();
     }
+
+
+    // To get JSON of Search By Name:
+    if(isset($_POST['searchByName']))
+    {
+        $inputString1=strtolower($_POST["searchByName"])."%";
+        $inputString2="% ".strtolower($_POST["searchByName"])."%";
+        $result = DataBase::query('SELECT name,id,profilepic FROM '.DataBase::$user_table_name.' '.
+                                  'WHERE LOWER(name) LIKE :inputString1 '.
+                                    'OR LOWER(name) LIKE :inputString2',
+                            array(':inputString1'=>$inputString1,
+                                  ':inputString2'=>$inputString2)
+                            );
+
+        if ($result['executed']===false)
+        {
+            echo "ERROR: Not able to execute SQL<br>";
+            print_r($result['errorInfo']);
+        }
+        else
+        {
+            $result_json=json_encode($result);
+            echo $result_json;
+        }
+    }
+
+
+    // To get JSON of Search By Skill:
+    if(isset($_POST['searchBySkill']))
+    {
+        $result = DataBase::query('SELECT name,id,profilepic FROM '.DataBase::$user_table_name.','.DataBase::$skill_reg_table_name.','.DataBase::$skill_table_name.
+                                  ' WHERE UserID=id'.
+                                    ' AND '.DataBase::$skill_table_name.'.skillid='.DataBase::$skill_reg_table_name.'.skillid'.
+                                    ' AND LOWER(skill)=LOWER(:inputString)',
+                            array(':inputString'=>$_POST['searchBySkill'])
+                            );
+        if ($result['executed']===false)
+        {
+            echo "ERROR: Not able to execute SQL<br>";
+            print_r($result['errorInfo']);
+        }
+        else
+        {
+            $result_json=json_encode($result);
+            echo $result_json;
+        }
+    }
+
 
 ?>

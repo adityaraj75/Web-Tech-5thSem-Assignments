@@ -23,6 +23,7 @@ class DataBase
     public static $skill_reg_table_name     = "ASARGSkillReg";
     public static $token_table_name         = "asargtokens";
     public static $posts_table_name         = "ASARGPosts";
+    public static $follow_table_name        = "ASARGFollowers";
 
     private static function connect()
     {

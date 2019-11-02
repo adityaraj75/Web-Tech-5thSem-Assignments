@@ -1,3 +1,74 @@
+.profileImage{
+    width: 100%;
+    border-radius: 4px;
+    /* border: 2px rgba(21, 2, 56, 0.2) solid; */
+}
+
+
+.profileImage:hover{
+    /* border-radius: 1px; */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+#profilePicUpload{
+    display: none;
+}
+
+.editProfile{
+    position: absolute;
+    top: 83%;
+    left: 8%;
+    /* width: 200px;
+    height: 100px; */
+    display: inline-block;
+    cursor: pointer;
+}
+
+
+.relpos{
+    position: relative;
+}
+
+
+.identityBox{
+
+}
+
+.nameTile{
+    color: #060a30;
+}
+
+.emailTile{
+    color: #5d5f6b;
+}
+.emailTile:visited{
+    text-decoration: none;
+    color: #5d5f6b;
+}
+.emailTile:hover{
+    text-decoration: none;
+    color: #36373d;
+}
+.emailTile:focus{
+    text-decoration: none;
+    color: #36373d;
+}
+.emailTile:hover, .emailTile:active{
+    text-decoration: none;
+    color: #36373d;
+}
+
+
+.infoTile{
+    color: #6d756e;
+    margin-bottom: 4px;
+}
+
+
+
+
+
 .search-box{
     position: relative;
     width: inherit;

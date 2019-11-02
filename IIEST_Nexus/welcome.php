@@ -54,7 +54,7 @@
                     <hr>
                     <div class="container">
                         <h3>Sign Up</h3>
-                        <form id="SignUpForm" method="POST" action="signup.php">
+                        <form id="SignUpForm">
                             <div class="form-group row">
                                 <label class='col-form-label col-sm-3' for="name"><strong>Name</strong></label>
                                 <div class="col">
@@ -80,8 +80,8 @@
                                 </div>
                             </div>
                             <div class="form-group text-center">
-                                <input class='btn btn-success' type="submit" name="signup" value="Sign-Up">
-                                <input class='btn btn-danger' type="reset" name="reset" value="Reset">
+                                <button type="button" class="btn btn-success" name="signup">Sign-Up</button>
+                                <button type="button" class="btn btn-danger" name="reset">Reset</button>
                             </div>
                         </form>
                     </div>
@@ -92,6 +92,6 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-        <script src="static/js/login_script.js"></script>
+        <script src="static/js/welcome_script.js"></script>
     </body>
 </html>

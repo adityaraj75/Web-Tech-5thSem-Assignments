@@ -51,7 +51,7 @@
     // To show all posts ordered by time desc
     if(isset($_POST['showAllPost']))
     {
-        $result = DataBase::query('SELECT '.DataBase::$posts_table_name.'.id,body,posted_at,name as username,user_id as userid,likes'.
+        $result = DataBase::query('SELECT '.DataBase::$posts_table_name.'.id,body,posted_at,name as username,user_id as userid,likes,profilepic'.
                                     ' FROM '.DataBase::$posts_table_name.','.DataBase::$user_table_name.
                                     ' WHERE user_id='.DataBase::$user_table_name.'.id'.
                                     ' ORDER BY '.DataBase::$posts_table_name.'.id DESC');
@@ -67,6 +67,30 @@
         }
     }
 
+
+    // To show posts of people who the current user follows ordered by time desc
+    if(isset($_POST['showFollowingPost']))
+    {
+        $result = DataBase::query('SELECT '.DataBase::$posts_table_name.'.id,body,posted_at,name AS username,user_id AS userid,likes,profilepic'.
+                                    ' FROM '.DataBase::$posts_table_name.','.DataBase::$user_table_name.
+                                    ' WHERE user_id='.DataBase::$user_table_name.'.id'.
+                                        ' AND user_id IN (SELECT userid'.
+                                                        ' FROM '.DataBase::$follow_table_name.
+                                                        ' WHERE followerid = :currentuserid )'.
+                                    ' ORDER BY '.DataBase::$posts_table_name.'.id DESC',
+                                    array(':currentuserid'=>$current_user->getID())
+                                );
+        if ($result['executed']===false)
+        {
+            echo "ERROR: Not able to execute SQL<br>";
+            print_r($result['errorInfo']);
+        }
+        else
+        {
+            $result_json=json_encode($result);
+            echo $result_json;
+        }
+    }
 
 
 
