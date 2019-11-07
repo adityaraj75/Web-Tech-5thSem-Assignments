@@ -70,6 +70,8 @@ function construct_post_string(post){
     }
     f='<div class="card">' +
         '<div class="card-body">' +
+            '<input id="postUserID" value="' + post.userid + '" hidden>' +
+            '<input id="postID" value="' + post.postid + '" hidden>' +
             '<div class="row">' +
                 '<div class="col-sm-9">' +
                     '<h5 class="card-title">' +
@@ -90,6 +92,12 @@ function construct_post_string(post){
 
             '<div class="card-text">' +
                 post.body +
+            '</div>' +
+            '<div class="like-button">' +
+                '<span style="float:left;">' +
+                    '<i class="fa fa-caret-up like">'+'</i>' +
+                    '<span class="likenumber" id="fa_' + post.postid + '">'+'</span>'
+                '</span>'
             '</div>' +
         '</div>' +
     '</div>';
@@ -113,6 +121,8 @@ function construct_search_result_string(result,searchString="",bolden=false){
 }
 
 
+
+
 $(document).ready(function(){
 
     //for loading posts
@@ -127,11 +137,25 @@ $(document).ready(function(){
         for(x in post_list.data){
             post_node=$(construct_post_string(post_list.data[x]));
             $('.postBox').append(post_node);
+
+            // For loading Posts Like Numbers
+            let postid=$(post_node).find('#postID').val();
+            $.post("async/like_async.php",{getLikes:postid}).done(function(result_json){
+                result=JSON.parse(result_json);
+                // console.log(result[0].likes);
+                // console.log(document.getElementById('fa_'+postid));
+                document.getElementById('fa_'+postid).innerHTML=result[0].likes;
+                // $(post_node).find('.likenumber').html(result[0].likes);
+                if(result.alreadydone==1){
+                    $('#fa_'+postid).siblings('i').removeClass("fa-caret-up");
+                    $('#fa_'+postid).siblings('i').addClass("fa-caret-down");
+                    $('#fa_'+postid).siblings('i').removeClass("like");
+                    $('#fa_'+postid).siblings('i').addClass("unlike");
+                }
+            });
         }
     }
     $.post("async/post_async.php",{showFollowingPost:true}).done(showPosts);
-
-
 
 
     //for creating a post
@@ -170,9 +194,6 @@ $(document).ready(function(){
             }
         });
     });
-
-
-
 
 
     // For changing placeholder of search bar
@@ -285,7 +306,7 @@ $(document).ready(function(){
         }
     });
 
-    // FOr updating input with clicked Skill
+    // For updating input with clicked Skill
     $(document).on("click",".result p#skilloption", function(){
         $(this).parents(".search-box").find('input[type="text"]').val($(this).text());
         $(this).parent(".result").empty();
@@ -304,6 +325,34 @@ $(document).ready(function(){
     document.addEventListener("click",function(e){
         closeAllLists(e.target);
     });
+
+
+    // For clicking like Button
+    $(document).on('click','.like',function(){
+        temp=this;
+        postid=parseInt($(this).parent().parent().parent().find('#postID').val());
+        $.post("async/like_async.php",{likePost:postid},function(result){
+            $(temp).siblings('.likenumber').html((parseInt($(temp).siblings('.likenumber').html())+1).toString());
+            $(temp).removeClass("fa-caret-up");
+            $(temp).addClass("fa-caret-down");
+            $(temp).removeClass("like");
+            $(temp).addClass("unlike");
+        });
+    });
+
+    // For clicking Unlike Button
+    $(document).on('click','.unlike',function(){
+        temp=this;
+        postid=parseInt($(this).parent().parent().parent().find('#postID').val());
+        $.post("async/like_async.php",{unlikePost:postid},function(result){
+            $(temp).siblings('.likenumber').html((parseInt($(temp).siblings('.likenumber').html())-1).toString());
+            $(temp).removeClass("fa-caret-down");
+            $(temp).addClass("fa-caret-up");
+            $(temp).removeClass("unlike");
+            $(temp).addClass("like");
+        });
+    });
+
 
 
 });

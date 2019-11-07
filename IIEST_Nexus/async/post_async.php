@@ -71,7 +71,7 @@
     // To show posts of people who the current user follows ordered by time desc
     if(isset($_POST['showFollowingPost']))
     {
-        $result = DataBase::query('SELECT '.DataBase::$posts_table_name.'.id,body,posted_at,name AS username,user_id AS userid,likes,profilepic'.
+        $result = DataBase::query('SELECT '.DataBase::$posts_table_name.'.id as postid,body,posted_at,name AS username,user_id AS userid,likes,profilepic'.
                                     ' FROM '.DataBase::$posts_table_name.','.DataBase::$user_table_name.
                                     ' WHERE user_id='.DataBase::$user_table_name.'.id'.
                                         ' AND user_id IN (SELECT userid'.

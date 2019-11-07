@@ -298,6 +298,7 @@ $(document).ready(function(){
             this_alert.fadeTo(3000, 0).slideUp(500,function(){
                 $(this).remove();
             });
+
             // Change Buttons
             $('#followBtn').attr('hidden',true);
             $('#unfollowBtn').removeAttr('hidden');
@@ -331,5 +332,6 @@ $(document).ready(function(){
             $('#followBtn').removeAttr('hidden');
         });
     });
+
 
 });

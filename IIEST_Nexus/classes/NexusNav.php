@@ -19,6 +19,7 @@ class NexusNav
                         '</a>
                         <div class="dropdown-menu" aria-labelledby="meDropdown">
                             <a class="dropdown-item" href="profile.php">Profile</a>
+                            <a class="dropdown-item" href="messages.php">Chats</a>
                         </div>
                     </li>
                 </ul>
@@ -40,7 +41,7 @@ class NexusNav
             $query_result = DataBase::query('SELECT profilepic FROM '.DataBase::$user_table_name.
                                             ' WHERE id=:id',
                                             array(':id'=>$id));
-            $retString=$retString.'<img src="'.$query_result[data][0][profilepic].'" width="30px" height="30px" style="border-radius:50%;" alt="Me">';
+            $retString=$retString.'<img src="'.$query_result['data'][0]['profilepic'].'" width="30px" height="30px" style="border-radius:50%;" alt="Me">';
             $retString=$retString.self::$logged_in_part2;
         }
         $retString=$retString.'</nav>';

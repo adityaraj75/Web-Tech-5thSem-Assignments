@@ -71,11 +71,11 @@ class User
                                         ':followerid'=>$this->id)
                                 );
 
-        if(!$result[executed]){
+        if(!$result['executed']){
             echo "ERROR: Could not able to execute SQL<br>";
             print_r($result['errorInfo']);
         }
-        if(count($result[data])===1){
+        if(count($result['data'])===1){
             return true;
         }
         return false;
@@ -91,11 +91,11 @@ class User
                                   array(':userid'=>$this->id)
                                 );
 
-        if(!$result[executed]){
+        if(!$result['executed']){
             echo "ERROR: Could not able to execute SQL<br>";
             print_r($result['errorInfo']);
         }
-        return $result[data][0][count];
+        return $result['data'][0]['count'];
     }
 
     public function noOfFollowing(){
@@ -108,11 +108,11 @@ class User
                                   array(':userid'=>$this->id)
                                 );
 
-        if(!$result[executed]){
+        if(!$result['executed']){
             echo "ERROR: Could not able to execute SQL<br>";
             print_r($result['errorInfo']);
         }
-        return $result[data][0][count];
+        return $result['data'][0]['count'];
     }
 
 }

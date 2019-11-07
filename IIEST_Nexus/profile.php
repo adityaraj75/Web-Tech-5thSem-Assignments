@@ -67,22 +67,23 @@
                     </div>
 
                     <!-- Follow/Unfollow Form Begin -->
-                    <?php if( ($logged_in_user!==NULL) && ($logged_in_user->getID()!==$profile_user->getID()) ){
-                        if($logged_in_user->follows($profile_user->getID())){ ?>
-                            <p></p>
-                            <div class="container">
+                    <?php if( ($logged_in_user!==NULL) && ($logged_in_user->getID()!==$profile_user->getID()) ){ ?>
+                        <p></p>
+                        <div class="container d-flex justify-content-between">
+                            <?php if($logged_in_user->follows($profile_user->getID())){ ?>
                                 <button type="button" class="btn btn-dark" name="follow" id="followBtn" hidden>Follow</button>
-                                <button type="button" class="btn btn-dark" name="follow" id="unfollowBtn">Unfollow</button>
-                            </div>
-                        <?php } else {?>
-                            <p></p>
-                            <div class="container">
+                                <button type="button" class="btn btn-dark" name="unfollow" id="unfollowBtn">Unfollow</button>
+                            <?php } else {?>
                                 <button type="button" class="btn btn-dark" name="follow" id="followBtn">Follow</button>
-                                <button type="button" class="btn btn-dark" name="follow" id="unfollowBtn" hidden>Unfollow</button>
-                            </div>
-                        <?php } ?>
+                                <button type="button" class="btn btn-dark" name="unfollow" id="unfollowBtn" hidden>Unfollow</button>
+                            <?php } ?>
+                            <form action="messages.php" method="post">
+                                <input type="number" name="convoid" value="<?php echo $profile_user->getID();?>" hidden>
+                                <input class="btn btn-warning" type="submit" id="messageBtn" name="message" value="Chat">
+                            </form>
+                        </div>
                     <?php } ?>
-                    <!-- Follow/Unfollow Form End -->
+                    <!-- Follow/Unfollow and Message Form End -->
                 </div>
                 <!-- Left Column End -->
 

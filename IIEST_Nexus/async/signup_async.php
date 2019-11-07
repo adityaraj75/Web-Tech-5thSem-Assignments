@@ -42,8 +42,8 @@
                                         array(':name'=>$name,
                                               ':email'=>$email,
                                               ':dob'=>$dob,
-                                              ':password'=>password_hash($password, PASSWORD_BCRYPT)),
-                                              ':profilePicPath'=>'media/profile-placeholder.jpg'
+                                              ':password'=>password_hash($password, PASSWORD_BCRYPT),
+                                              ':profilePicPath'=>'media/profile-placeholder.jpg')
                                     );
 
                         // Get userid
